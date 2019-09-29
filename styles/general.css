@@ -1,0 +1,38 @@
+
+.tablasEstadisticas{
+    margin-left: 8%;
+}
+
+.header{ 
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}   
+
+.bodyHome, .container{
+margin-top: 8%;
+}
+
+.dropdown:hover{
+    border-radius: 2px;
+    background-color: #13355b;
+}
+
+.dropdown-item:hover{ 
+    background: linear-gradient( #13355b, #265386);
+}
+
+
+.nav-item:hover{
+    background: linear-gradient( #13355b, #265386);
+}
+
+.navbar, .dropdown-menu, .nav-item, .footer, .barraFiltro, thead{
+    background-color: #041727;
+}
+
+thead{
+    color: white;
+}

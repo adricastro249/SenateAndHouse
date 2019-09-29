@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>House Attendance</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/general.css">
+</head>
+
+<body>
+
+
+
+    <header class="header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="align-content-center flex-wrap">
+                <a href="index.html"><img src="imagenes/logo.png" alt="logo" class="rounded-circle img-fluid"
+                        style="height:60px"></a>
+            </div>
+
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link text-light" href="index.html">Home</a></li>
+                <li class=" nav-item dropdown"> <a class="nav-link dropdown-toggle text-light" href="#"
+                        id="navbarDropdown" role="button" data-toggle="dropdown"> Congress 113th</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item text-light" href="houseData.html">House</a></li>
+                        <li><a class="dropdown-item text-light" href="senateData.html">Senate</a></li>
+                    </ul>
+                </li>
+                <li class=" nav-item dropdown"> <a class="nav-link dropdown-toggle text-light" href="#"
+                        id="navbarDropdown" role="button" data-toggle="dropdown"> Attendance</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item text-light" href="houseAttendance.html">House</a></li>
+                        <li><a class="dropdown-item text-light" href="senateAttendance.html">Senate</a></li>
+                    </ul>
+                </li>
+                <li class=" nav-item dropdown"> <a class="nav-link dropdown-toggle text-light" href="#"
+                        id="navbarDropdown" role="button" data-toggle="dropdown"> Party Loyalty</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item text-light" href="housePartyLoyalty.html">House</a></li>
+                        <li><a class="dropdown-item text-light" href="senatePartyLoyalty.html">Senate</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="d-flex align-content-center flex-wrap">
+                <a href="mailto=info@tgif.net" class="text-light"> <img src="imagenes/mail2.png" alt="mailTo"
+                        class="rounded" style="height:25px"> info@tgif.net</a>
+            </div>
+
+        </nav>
+    </header>
+
+
+    <div id="app">
+
+        <!--Table container-->
+
+        <section class="container row tablasEstadisticas">
+            <div id="attendance" class="col-6">
+                <h2 class="text-center">Attendance</h2>
+                <p class="text-justify">The Constitution specifies that a majority of members constitutes a quorum to do
+                    business in each house.
+                    Representatives and senators rarely force the presence of a quorum by demanding quorum calls; thus,
+                    in
+                    most
+                    cases, debates continue even if a majority is not present.</p>
+
+                <p class="text-justify">The Senate uses roll-call votes; a clerk calls out the names of all the
+                    senators,
+                    each senator stating "aye"
+                    or "no" when his or her name is announced. The House reserves roll-call votes for the most formal
+                    matters,
+                    as a roll-call of all 435 representatives takes quite some time; normally, members vote by
+                    electronic
+                    device. In the case of a tie, the motion in question fails. In the Senate, the Vice President may
+                    (if
+                    present) cast the tiebreaking vote.</p>
+
+            </div>
+
+            <div class="col-6 float-right rounded text-center">
+                <h2 class="text-center">House at a glance</h2>
+
+                <div id="cargando" class=" " v-show='cargando'>
+                    <img src="imagenes/loader.gif" alt="cargando" class="ml-5">
+                </div>
+
+                <table id="atAGlance" class="table table-hover text-center  table-bordered" v-show="show">
+                    <thead>
+                        <tr>
+                            <th>PARTY</th>
+                            <th>NUMBER OF REPS</th>
+                            <th>% VOTED WITH PARTY</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Republicans</td>
+                            <td>{{numberRepublicans}}</td>
+                            <td>{{republicansAverageVotesWithParty}} %</td>
+                        </tr>
+                        <tr>
+                            <td>Democrats</td>
+                            <td>{{numberDemocrats}}</td>
+                            <td>{{democratsAverageVotesWithParty}} %</td>
+                        </tr>
+                        <tr>
+                            <td>Independents</td>                      
+                            <td>{{numberIndependents}}</td>
+                            <td v-show="numberIndependents == 0"> 0 %</td>
+                            <td v-show="numberIndependents !== 0"> {{independentsAverageVotesWithParty}} %</td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td>{{total}}</td>
+                            <td>{{totalAverage}} %</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            </br>
+            <div class="col-6">
+                <h2 class="text-center">Least Engaged (Bottom 10% Attendance)</h2>
+                <table id="leastEngaged" class="table table-hover text-center table-bordered">
+                    <thead>
+                        <tr>
+                            <th>NAME</th>
+                            <th>NUMBER OF MISSED VOTES</th>
+                            <th>% MISSED</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="member of leastEngaged">
+                            <td><a :href="member.url"> {{member.last_name}}, {{member.first_name}}
+                                    {{member.middle_name}}</a></td>
+                            <td>{{member.missed_votes}}</td>
+                            <td>{{member.missed_votes_pct}} %</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-6 float-right rounded text-center">
+                <h2 class="text-center">Most Engaged (Top 10% Attendance)</h2>
+                <table id="mostEngaged" class="table table-hover text-center table-bordered">
+
+                    <thead>
+                        <tr>
+                            <th>NAME</th>
+                            <th>NUMBER OF MISSED VOTES</th>
+                            <th>% MISSED</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="member of mostEngaged">
+                            <td><a :href="member.url"> {{member.last_name}}, {{member.first_name}}
+                                    {{member.middle_name}}</a></td>
+                            <td>{{member.missed_votes}}</td>
+                            <td>{{member.missed_votes_pct}} %</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+    </section>
+
+
+    <footer class="footer text-center text-light">©2016 TGIF - All Rigth Reserved</footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+
+    <script src="/scripts/vista.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>
